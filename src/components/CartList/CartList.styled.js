@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-export const Сatalog = styled.ul`
+export const CartWrap = styled.div`
   display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
   justify-content: center;
   flex-grow: 1;
+  padding: 16px 20px;
 `;

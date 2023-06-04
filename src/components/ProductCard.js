@@ -9,9 +9,14 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import cartContext from "../context/cartContext";
 
 export default function ProductCard({ product }) {
   const { name, image, description, price } = product;
+
+  const { addProductInCart } = useContext(cartContext);
+
   return (
     <li>
       <Card maxW="sm">
@@ -27,7 +32,11 @@ export default function ProductCard({ product }) {
         </CardBody>
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
+            <Button
+              variant="solid"
+              colorScheme="blue"
+              onClick={() => addProductInCart(product)}
+            >
               Add to cart
             </Button>
           </ButtonGroup>
