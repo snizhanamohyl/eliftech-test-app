@@ -1,22 +1,26 @@
-import { Button } from "@chakra-ui/react";
-import { SideNav, ListItem, Title } from "./RestaurantList.styled";
+import { SideNav, ListItem, Title, Btn } from "./RestaurantList.styled";
 
-export default function RestaurantList({ restaurants, onRestorauntChange }) {
+export default function RestaurantList({
+  restaurants,
+  onRestorauntChange,
+  chosenRestaurant,
+}) {
   return (
     <SideNav>
       <Title>Shops</Title>
       <ul>
         {restaurants?.map((restaurant) => (
           <ListItem key={restaurant.id}>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
+            <Btn
+              // variant="ghost"
+              // colorScheme="blue"
               onClick={() => {
                 onRestorauntChange(restaurant);
               }}
+              isChosen={chosenRestaurant.id === restaurant.id}
             >
               {restaurant.name}
-            </Button>
+            </Btn>
           </ListItem>
         ))}
       </ul>

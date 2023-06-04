@@ -9,20 +9,28 @@ import { ShopContainer } from "./Shop.styled";
 
 export default function Shop() {
   const [restaurants, setRestaurants] = useState(null);
-  // const [chosenRestaurant, setChosenRestaurant] = useState(null);
+  const [chosenRestaurant, setChosenRestaurant] = useState(null);
   const [products, setProducts] = useState(null);
 
   useEffect(
     () => async () => {
       const restaurants = await fetchRestaurants();
       setRestaurants(restaurants);
+
+      setChosenRestaurant(restaurants[0]);
+
+      const products = await fetchRestaurantProducts(restaurants[0].id);
+      setProducts(products);
     },
     []
   );
 
   const onRestorauntChange = async (restaurant) => {
-    const products = await fetchRestaurantProducts(restaurant.id);
+    if (restaurant === chosenRestaurant) return;
 
+    setChosenRestaurant(restaurant);
+
+    const products = await fetchRestaurantProducts(restaurant.id);
     setProducts(products);
   };
 
@@ -30,6 +38,7 @@ export default function Shop() {
     <ShopContainer>
       <RestaurantList
         restaurants={restaurants}
+        chosenRestaurant={chosenRestaurant}
         onRestorauntChange={onRestorauntChange}
       />
       {products && <ProductList products={products} />}

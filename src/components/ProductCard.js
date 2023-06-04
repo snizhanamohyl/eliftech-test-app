@@ -13,10 +13,20 @@ import { useContext } from "react";
 import cartContext from "../context/cartContext";
 
 export default function ProductCard({ product }) {
-  const { name, image, description, price } = product;
+  const { name, image, description, price, restaurantId } = product;
 
-  const { addProductInCart } = useContext(cartContext);
+  const { addProductInCart, productsInCart } = useContext(cartContext);
 
+  const onClick = () => {
+    if (productsInCart[0] && restaurantId !== productsInCart[0].restaurantId) {
+      alert(
+        "There are already products from other restaurant in the cart. You can remove them from cart and then order from this restaurant."
+      );
+      return;
+    }
+
+    addProductInCart(product);
+  };
   return (
     <li>
       <Card maxW="sm">
@@ -32,11 +42,7 @@ export default function ProductCard({ product }) {
         </CardBody>
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button
-              variant="solid"
-              colorScheme="blue"
-              onClick={() => addProductInCart(product)}
-            >
+            <Button variant="solid" colorScheme="blue" onClick={onClick}>
               Add to cart
             </Button>
           </ButtonGroup>

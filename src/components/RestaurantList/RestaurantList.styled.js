@@ -1,3 +1,4 @@
+// import { Button } from "@chakra-ui/react";
 import styled from "styled-components";
 
 export const SideNav = styled.div`
@@ -14,12 +15,19 @@ export const Title = styled.p`
   margin-bottom: 28px;
 `;
 
-export const Button = styled.button`
+export const Btn = styled.button`
   border: 1px solid black;
   padding: 8px 16px;
   border-radius: 8px;
+  background-color: ${(props) => (props.isChosen ? "#e6d1af" : `inherit`)};
+
   width: 100%;
   transition: background-color 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &:hover {
+    background-color: #e8d5b7;
+    /* box-shadow: 4px 4px 4px "#e8d5b7"; */
+  }
 `;
 
 export const ListItem = styled.li`
