@@ -1,4 +1,3 @@
-// import { Button } from "@chakra-ui/react";
 import styled from "styled-components";
 
 export const SideNav = styled.div`
@@ -26,7 +25,6 @@ export const Btn = styled.button`
 
   &:hover {
     background-color: #e8d5b7;
-    /* box-shadow: 4px 4px 4px "#e8d5b7"; */
   }
 `;
 

@@ -8,5 +8,5 @@ export const FormGroup = styled(FormControl)`
 `;
 
 export const FormWrap = styled.div`
-  min-width: 288px;
+  min-width: 100px;
 `;

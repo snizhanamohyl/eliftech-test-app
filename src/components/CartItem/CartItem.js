@@ -23,7 +23,7 @@ export default function CartItem({ product }) {
 
   return (
     <Item>
-      <Flex align="center" w={720} justify={"space-between"}>
+      <Flex align="center" minW={600} justify={"space-between"}>
         <Flex align="center">
           <Image src={image} alt={name} borderRadius="lg" width={160} mr={8} />
           <Stack>

@@ -7,6 +7,11 @@ export const fetchRestaurants = async () => {
   return response.data;
 };
 
+export const fetchRestaurantById = async (id) => {
+  const response = await axios.get(`/restaurants/${id}`);
+  return response.data;
+};
+
 export const fetchRestaurantProducts = async (restaurantId) => {
   const response = await axios.get(`/restaurants/${restaurantId}/products`);
   return response.data;
