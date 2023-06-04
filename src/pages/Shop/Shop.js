@@ -12,18 +12,23 @@ export default function Shop() {
   const [chosenRestaurant, setChosenRestaurant] = useState(null);
   const [products, setProducts] = useState(null);
 
-  useEffect(
-    () => async () => {
-      const restaurants = await fetchRestaurants();
-      setRestaurants(restaurants);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const restaurants = await fetchRestaurants();
+        setRestaurants(restaurants);
 
-      setChosenRestaurant(restaurants[0]);
+        setChosenRestaurant(restaurants[0]);
 
-      const products = await fetchRestaurantProducts(restaurants[0].id);
-      setProducts(products);
-    },
-    []
-  );
+        const products = await fetchRestaurantProducts(restaurants[0].id);
+        setProducts(products);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const onRestorauntChange = async (restaurant) => {
     if (restaurant === chosenRestaurant) return;
