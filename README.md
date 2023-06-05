@@ -2,7 +2,7 @@
 
 **Description**  
 Web application which allows users to order food from one of the available restaurants.
-The app currently has two pages: Shop and Cart.
+The app currently has two pages: Shop and Cart.  
 To run the application you can simply follow the link [eliftech-test-app.vercel.app](https://eliftech-test-app.vercel.app/)
 
 **Used Technologies**
