@@ -6,7 +6,6 @@ import AppBar from "../AppBar/AppBar";
 export default function Layout() {
   return (
     <Container>
-      {/* <AppBar /> */}
       <AppBar />
       <Suspense fallback={null}>
         {/* замінити на Loading Component*/}
