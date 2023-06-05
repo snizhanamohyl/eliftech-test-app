@@ -11,7 +11,7 @@ import cartContext from "../../context/cartContext";
 
 export default function Shop() {
   const [restaurants, setRestaurants] = useState(null);
-  const { chosenRestaurant, setChosenRestaurant, setProductsInCart } =
+  const { chosenRestaurant, setChosenRestaurant, setProductsInCart, productsInCart } =
     useContext(cartContext);
   const [products, setProducts] = useState(null);
 
@@ -28,7 +28,7 @@ export default function Shop() {
   }, []);
 
   useEffect(() => {
-    if (setProductsInCart?.lenght === 0) {
+    if (productsInCart?.length === 0) {
       const products = JSON.parse(localStorage.getItem("productsInCart"));
       setProductsInCart(products ? products : []);
     }
@@ -39,7 +39,7 @@ export default function Shop() {
       );
       setChosenRestaurant(chosenRestaurant ? chosenRestaurant : null);
     }
-  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart]);
+  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart, productsInCart]);
 
   useEffect(() => {
     const fetchData = async () => {
