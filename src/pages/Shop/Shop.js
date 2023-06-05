@@ -11,7 +11,7 @@ import cartContext from "../../context/cartContext";
 
 export default function Shop() {
   const [restaurants, setRestaurants] = useState(null);
-  const { chosenRestaurant, setChosenRestaurant, setProductsInCart, productsInCart } =
+  const { chosenRestaurant, setChosenRestaurant, setProductsInCart } =
     useContext(cartContext);
   const [products, setProducts] = useState(null);
 
@@ -39,7 +39,7 @@ export default function Shop() {
       );
       setChosenRestaurant(chosenRestaurant ? chosenRestaurant : null);
     }
-  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart, productsInCart]);
+  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart]);
 
   useEffect(() => {
     const fetchData = async () => {
