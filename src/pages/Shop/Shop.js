@@ -28,18 +28,13 @@ export default function Shop() {
   }, []);
 
   useEffect(() => {
-    if (productsInCart?.length === 0) {
-      const products = JSON.parse(localStorage.getItem("productsInCart"));
-      setProductsInCart(products ? products : []);
-    }
-
     if (!chosenRestaurant) {
       const chosenRestaurant = JSON.parse(
         localStorage.getItem("chosenRestaurant")
       );
       setChosenRestaurant(chosenRestaurant ? chosenRestaurant : null);
     }
-  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart]);
+  }, [chosenRestaurant, setChosenRestaurant]);
 
   useEffect(() => {
     const fetchData = async () => {
