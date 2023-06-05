@@ -62,7 +62,7 @@ export default function CartPage() {
   return (
     <CartContainer>
       <Form onSubmit={onSubmit} ref={formRef}>
-        <Flex justify={"space-between"} mb={8}>
+        <Flex justify={"space-between"} mb={8} gap={8}>
           <ContactForm />
           <CartList />
         </Flex>

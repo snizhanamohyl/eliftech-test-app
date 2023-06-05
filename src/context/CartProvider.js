@@ -1,15 +1,31 @@
 import { useState } from "react";
 import cartContext from "./cartContext";
+import { useToast } from "@chakra-ui/react";
 
 export default function CartProvider({ children }) {
   const [productsInCart, setProductsInCart] = useState([]);
+  const [chosenRestaurant, setChosenRestaurant] = useState(null);
+  const toast = useToast();
+
+  // const chooseRestaurant = (restaurant) => {
+  //   setChosenRestaurant(restaurant);
+  // }
 
   const addProductInCart = (productToAdd) => {
     const productIsInCart = productsInCart.find(
       (product) => product.id === productToAdd.id
     );
 
-    if (productIsInCart) return;
+    if (productIsInCart) {
+      toast({
+        title: "The product is already in cart",
+        status: "info",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
 
     setProductsInCart((prevState) => [
       ...prevState,
@@ -57,6 +73,8 @@ export default function CartProvider({ children }) {
         increaseQuantity,
         decreaseQuantity,
         resetCart,
+        chosenRestaurant,
+        setChosenRestaurant,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ import {
   Image,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import cartContext from "../context/cartContext";
@@ -17,11 +18,19 @@ export default function ProductCard({ product }) {
 
   const { addProductInCart, productsInCart } = useContext(cartContext);
 
+  const toast = useToast();
+
   const onClick = () => {
     if (productsInCart[0] && restaurantId !== productsInCart[0].restaurantId) {
-      alert(
-        "There are already products from other restaurant in the cart. You can remove them from cart and then order from this restaurant."
-      );
+      toast({
+        title: "You can order only from one restaurant!",
+        description:
+          "There are already products from other restaurant in the cart. You can remove them from cart and then order from this restaurant.",
+        status: "info",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     }
 

@@ -6,29 +6,47 @@ import {
 import RestaurantList from "../../components/RestaurantList/RestaurantList";
 import ProductList from "../../components/ProductList/ProductList";
 import { ShopContainer } from "./Shop.styled";
+import { useContext } from "react";
+import cartContext from "../../context/cartContext";
 
 export default function Shop() {
   const [restaurants, setRestaurants] = useState(null);
-  const [chosenRestaurant, setChosenRestaurant] = useState(null);
+  const { chosenRestaurant, setChosenRestaurant } = useContext(cartContext);
   const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    const getRestaurants = async () => {
+      try {
+        const restaurants = await fetchRestaurants();
+        setRestaurants(restaurants);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getRestaurants();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const restaurants = await fetchRestaurants();
-        setRestaurants(restaurants);
+        if (!restaurants) return;
 
-        setChosenRestaurant(restaurants[0]);
+        if (!chosenRestaurant) {
+          setChosenRestaurant(restaurants[0]);
+        }
 
-        const products = await fetchRestaurantProducts(restaurants[0].id);
-        setProducts(products);
+        if (chosenRestaurant) {
+          const products = await fetchRestaurantProducts(chosenRestaurant.id);
+          setProducts(products);
+        }
       } catch (error) {
         console.log(error.message);
       }
     };
 
     fetchData();
-  }, []);
+  }, [chosenRestaurant, restaurants, setChosenRestaurant]);
 
   const onRestorauntChange = async (restaurant) => {
     if (restaurant === chosenRestaurant) return;
@@ -41,12 +59,15 @@ export default function Shop() {
 
   return (
     <ShopContainer>
-      <RestaurantList
-        restaurants={restaurants}
-        chosenRestaurant={chosenRestaurant}
-        onRestorauntChange={onRestorauntChange}
-      />
-      {products && <ProductList products={products} />}
+      {restaurants && (
+        <>
+          <RestaurantList
+            restaurants={restaurants}
+            onRestorauntChange={onRestorauntChange}
+          />
+          {products && <ProductList products={products} />}
+        </>
+      )}
     </ShopContainer>
   );
 }
