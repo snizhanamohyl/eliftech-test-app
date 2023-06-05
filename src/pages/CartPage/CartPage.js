@@ -2,12 +2,17 @@ import { Button, Divider, Flex, Text } from "@chakra-ui/react";
 import CartList from "../../components/CartList/CartList";
 import ContactForm from "../../components/ContactForm/ContactForm";
 import { CartContainer, Form } from "./CartPage.styled";
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 import cartContext from "../../context/cartContext";
 import { addOrder } from "../../services/ordersAPI";
+import BasicUsage from "../../components/Modal/Modal";
 
 export default function CartPage() {
   const { productsInCart, resetCart } = useContext(cartContext);
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
+  const [orderData, setOrderData] = useState(null);
+
+  const formRef = useRef();
 
   const getTotal = () => {
     const total = productsInCart.reduce(
@@ -21,27 +26,42 @@ export default function CartPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    if (productsInCart?.length === 0) {
+      alert("Add some products in cart to make an order");
+      return;
+    }
+
+    setShowRecaptcha(true);
+
     const contactFormData = new FormData(e.target);
     const contactFormProps = Object.fromEntries(contactFormData);
 
-    const orderData = {
+    const orderInfo = {
       user: contactFormProps,
       products: productsInCart,
     };
 
+    setOrderData(orderInfo);
+  };
+
+  async function onChange(value) {
+    if (!value) return;
+
     try {
-      addOrder(orderData);
+      await addOrder(orderData);
+
+      formRef.current.reset();
+      resetCart();
+
+      setShowRecaptcha(false);
     } catch (error) {
       console.log(error.message);
     }
-
-    e.target.reset();
-    resetCart();
-  };
+  }
 
   return (
     <CartContainer>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} ref={formRef}>
         <Flex justify={"space-between"} mb={8}>
           <ContactForm />
           <CartList />
@@ -59,6 +79,7 @@ export default function CartPage() {
           </Button>
         </Flex>
       </Form>
+      <BasicUsage showRecaptcha={showRecaptcha} onChange={onChange} />
     </CartContainer>
   );
 }

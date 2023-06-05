@@ -33,6 +33,11 @@ export default function ContactForm() {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
 
+  // const [name, setName] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [address, setAddress] = useState("");
+
   const destinationRef = useRef();
 
   const { isLoaded } = useJsApiLoader({
@@ -55,7 +60,6 @@ export default function ContactForm() {
   }, [productsInCart]);
 
   const calculateRoute = async () => {
-    console.log(chosenRestaurant);
     if (destinationRef.current.value === "" || !chosenRestaurant) return;
 
     // eslint-disable-next-line no-undef
@@ -96,6 +100,30 @@ export default function ContactForm() {
       )} min`;
     }
   };
+
+  // const onInputChange = ({ target }) => {
+  //   switch (target.name) {
+  //     case "name": {
+  //       setName(target.value);
+  //       break;
+  //     }
+  //     case "phone": {
+  //       setPhone(target.value);
+  //       break;
+  //     }
+  //     case "email": {
+  //       setEmail(target.value);
+  //       break;
+  //     }
+  //     case "address": {
+  //       setAddress(target.value);
+  //       break;
+  //     }
+  //     default: {
+  //       break;
+  //     }
+  //   }
+  // };
 
   return (
     <FormWrap>
@@ -172,7 +200,14 @@ export default function ContactForm() {
       <Text mb={8}>Fill the address field below and lay a route.</Text>
       <FormGroup>
         <FormLabel>Name</FormLabel>
-        <Input placeholder="John" type="text" name="name" isRequired />
+        <Input
+          placeholder="John"
+          type="text"
+          name="name"
+          isRequired
+          // value={name}
+          // onChange={onInputChange}
+        />
       </FormGroup>
       <FormGroup>
         <FormLabel>Email</FormLabel>
@@ -214,6 +249,13 @@ export default function ContactForm() {
           />
         )}
       </FormGroup>
+      {/* {showRecaptcha && (
+        <ReCAPTCHA
+          sitekey="6Ldh_2omAAAAAMmc_xeI43W7t1Q3eNHuv-jbt842"
+          onChange={onChange}
+          ref={recaptchaRef}
+        />
+      )} */}
     </FormWrap>
   );
 }
