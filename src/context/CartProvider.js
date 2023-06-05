@@ -7,9 +7,10 @@ export default function CartProvider({ children }) {
   const [chosenRestaurant, setChosenRestaurant] = useState(null);
   const toast = useToast();
 
-  // const chooseRestaurant = (restaurant) => {
-  //   setChosenRestaurant(restaurant);
-  // }
+  const chooseRestaurant = (restaurant) => {
+    setChosenRestaurant(restaurant);
+    localStorage.setItem("chosenRestaurant", JSON.stringify(restaurant));
+  };
 
   const addProductInCart = (productToAdd) => {
     const productIsInCart = productsInCart.find(
@@ -27,10 +28,11 @@ export default function CartProvider({ children }) {
       return;
     }
 
-    setProductsInCart((prevState) => [
-      ...prevState,
-      { ...productToAdd, quantity: 1 },
-    ]);
+    setProductsInCart((prevState) => {
+      const updatedProducts = [...prevState, { ...productToAdd, quantity: 1 }];
+      localStorage.setItem("productsInCart", JSON.stringify(updatedProducts));
+      return updatedProducts;
+    });
   };
 
   const increaseQuantity = (id) => {
@@ -40,6 +42,7 @@ export default function CartProvider({ children }) {
         : product;
     });
     setProductsInCart(updatedProducts);
+    localStorage.setItem("productsInCart", JSON.stringify(updatedProducts));
   };
 
   const decreaseQuantity = (id) => {
@@ -49,6 +52,7 @@ export default function CartProvider({ children }) {
         : product;
     });
     setProductsInCart(updatedProducts);
+    localStorage.setItem("productsInCart", JSON.stringify(updatedProducts));
   };
 
   const removeProductFromCart = (id) => {
@@ -58,6 +62,7 @@ export default function CartProvider({ children }) {
     products.splice(index, 1);
 
     setProductsInCart(products);
+    localStorage.setItem("productsInCart", JSON.stringify(products));
   };
 
   const resetCart = () => {
@@ -68,13 +73,14 @@ export default function CartProvider({ children }) {
     <cartContext.Provider
       value={{
         productsInCart,
+        setProductsInCart,
         addProductInCart,
         removeProductFromCart,
         increaseQuantity,
         decreaseQuantity,
         resetCart,
         chosenRestaurant,
-        setChosenRestaurant,
+        setChosenRestaurant: chooseRestaurant,
       }}
     >
       {children}

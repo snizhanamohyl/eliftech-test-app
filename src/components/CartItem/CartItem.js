@@ -48,9 +48,6 @@ export default function CartItem({ product }) {
                   />
                 </NumberInputStepper>
               </NumberInput>
-              {/* <Text color="blue.600" fontSize="xl" mr={8}>
-                Total ${price * quantity}
-              </Text> */}
             </Flex>
           </Stack>
         </Flex>

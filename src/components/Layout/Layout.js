@@ -8,10 +8,8 @@ export default function Layout() {
     <Container>
       <AppBar />
       <Suspense fallback={null}>
-        {/* замінити на Loading Component*/}
         <Outlet />
       </Suspense>
-      {/* <Footer /> */}
     </Container>
   );
 }

@@ -6,22 +6,31 @@ import { CartWrap } from "./CartList.styled";
 import { fetchRestaurantById } from "../../services/productsAPI";
 
 export default function CartList() {
-  const { productsInCart } = useContext(cartContext);
+  const { productsInCart, setProductsInCart } = useContext(cartContext);
   const [chosenRestaurant, setChosenRestaurant] = useState(null);
 
   useEffect(() => {
-    if (productsInCart.length !== 1) return;
+    const products = JSON.parse(localStorage.getItem("productsInCart"));
+    setProductsInCart(products ? products : []);
+  }, [setProductsInCart]);
 
+  useEffect(() => {
     const fetchRestaurant = async () => {
-      const restaurantId = productsInCart[0].restaurantId;
+      const restaurantId = productsInCart[0]?.restaurantId;
 
-      const restaurant = await fetchRestaurantById(restaurantId);
+      if (chosenRestaurant?.id === restaurantId) return;
 
-      setChosenRestaurant(restaurant);
+      try {
+        const restaurant = await fetchRestaurantById(restaurantId);
+
+        setChosenRestaurant(restaurant);
+      } catch (error) {
+        console.log(error.message);
+      }
     };
 
     fetchRestaurant();
-  }, [productsInCart]);
+  }, [chosenRestaurant, productsInCart]);
 
   return (
     <CartWrap>

@@ -1,4 +1,4 @@
-import ProductCard from "../ProductCard";
+import ProductCard from "../ProductCard/ProductCard";
 import { Сatalog } from "./ProductList.styled.js";
 
 export default function ProductList({ products }) {

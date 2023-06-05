@@ -11,7 +11,8 @@ import cartContext from "../../context/cartContext";
 
 export default function Shop() {
   const [restaurants, setRestaurants] = useState(null);
-  const { chosenRestaurant, setChosenRestaurant } = useContext(cartContext);
+  const { chosenRestaurant, setChosenRestaurant, setProductsInCart } =
+    useContext(cartContext);
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
@@ -23,9 +24,22 @@ export default function Shop() {
         console.log(error);
       }
     };
-
     getRestaurants();
   }, []);
+
+  useEffect(() => {
+    if (setProductsInCart?.lenght === 0) {
+      const products = JSON.parse(localStorage.getItem("productsInCart"));
+      setProductsInCart(products ? products : []);
+    }
+
+    if (!chosenRestaurant) {
+      const chosenRestaurant = JSON.parse(
+        localStorage.getItem("chosenRestaurant")
+      );
+      setChosenRestaurant(chosenRestaurant ? chosenRestaurant : null);
+    }
+  }, [chosenRestaurant, setChosenRestaurant, setProductsInCart]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +50,16 @@ export default function Shop() {
           setChosenRestaurant(restaurants[0]);
         }
 
-        if (chosenRestaurant) {
+        try {
           const products = await fetchRestaurantProducts(chosenRestaurant.id);
           setProducts(products);
+        } catch (error) {
+          console.log(error.message);
         }
+
+        // if (chosenRestaurant) {
+
+        // }
       } catch (error) {
         console.log(error.message);
       }
@@ -53,8 +73,12 @@ export default function Shop() {
 
     setChosenRestaurant(restaurant);
 
-    const products = await fetchRestaurantProducts(restaurant.id);
-    setProducts(products);
+    try {
+      const products = await fetchRestaurantProducts(restaurant.id);
+      setProducts(products);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (

@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import cartContext from "../context/cartContext";
+import cartContext from "../../context/cartContext";
 
 export default function ProductCard({ product }) {
   const { name, image, description, price, restaurantId } = product;
